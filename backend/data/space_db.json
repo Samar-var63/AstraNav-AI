@@ -1,0 +1,22 @@
+{
+  "planets": {
+    "mars": { "name": "Mars", "gravity": "3.721 m/s²", "atmosphere": "Thin CO2", "skyColor": "#8c3a2b" },
+    "moon": { "name": "Moon", "gravity": "1.62 m/s²", "atmosphere": "Exosphere/Vacuum", "skyColor": "#111111" }
+  },
+  "rovers": {
+    "curiosity": {
+      "name": "Curiosity Rover Class",
+      "power": "MMRTG Nuclear Battery",
+      "weight": "899 kg",
+      "speed": "0.14 km/h",
+      "instruments": ["NavCam", "HazCam", "SAM", "ChemCam"]
+    },
+    "perseverance": {
+      "name": "Perseverance Rover Class",
+      "power": "MMRTG Plutonium",
+      "weight": "1025 kg",
+      "speed": "0.16 km/h",
+      "instruments": ["SuperCam", "PIXL", "SHERLOC", "MOXIE"]
+    }
+  }
+}
