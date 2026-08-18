@@ -5,7 +5,8 @@ import {
   Cpu, BatteryCharging, Zap, Shield, Radio, CheckCircle, Play, Sliders 
 } from 'lucide-react';
 
-const RoverCanvas3D = ({ color, shape }) => {
+// Inner 3D Mesh Component where useFrame hook is allowed
+const RoverMesh = ({ color, shape }) => {
   const meshRef = useRef();
 
   useFrame((state, delta) => {
@@ -15,17 +16,23 @@ const RoverCanvas3D = ({ color, shape }) => {
   });
 
   return (
+    <mesh ref={meshRef}>
+      {shape === 'box' && <boxGeometry args={[1.5, 0.8, 2]} />}
+      {shape === 'octa' && <octahedronGeometry args={[1.2, 0]} />}
+      {shape === 'cylinder' && <cylinderGeometry args={[1, 1, 1.5, 16]} />}
+      <meshStandardMaterial color={color} wireframe roughness={0.3} metalness={0.8} />
+    </mesh>
+  );
+};
+
+const RoverCanvas3D = ({ color, shape }) => {
+  return (
     <Canvas camera={{ position: [0, 2, 4], fov: 50 }}>
       <ambientLight intensity={0.7} />
       <pointLight position={[10, 10, 10]} intensity={1.2} />
       <directionalLight position={[-5, 5, 5]} intensity={0.8} />
       
-      <mesh ref={meshRef}>
-        {shape === 'box' && <boxGeometry args={[1.5, 0.8, 2]} />}
-        {shape === 'octa' && <octahedronGeometry args={[1.2]} />}
-        {shape === 'cylinder' && <cylinderGeometry args={[1, 1, 1.5, 8]} />}
-        <meshStandardMaterial color={color} wireframe roughness={0.3} metalness={0.8} />
-      </mesh>
+      <RoverMesh color={color} shape={shape} />
 
       <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
     </Canvas>
@@ -88,7 +95,6 @@ export default function RoverSelection() {
   const [autonomy, setAutonomy] = useState('Full Autonomous (AI)');
   const [objective, setObjective] = useState('Terrain Mapping');
   const [diagnostics, setDiagnostics] = useState(null);
-  const [isDeploying, setIsDeploying] = useState(false);
 
   const runDiagnosticTest = () => {
     setDiagnostics('running');
@@ -247,7 +253,6 @@ export default function RoverSelection() {
           </button>
 
           <button
-            onClick={() => setIsDeploying(true)}
             className="flex-1 md:flex-none px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm transition-all shadow-[0_0_20px_rgba(6,182,212,0.6)] hover:shadow-[0_0_30px_rgba(6,182,212,0.9)] flex items-center justify-center gap-2"
           >
             <Play className="w-4 h-4 fill-current" /> Deploy Telemetry
