@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import './index.css'; // Make sure your global styles are imported
+import './index.css';
+import { useGoogleLogin } from '@react-oauth/google';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('rover');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+
+  // Hook to trigger Google Login Popup
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log('Login Success:', tokenResponse);
+      setUserData(tokenResponse);
+      setIsLoggedIn(true);
+    },
+    onError: (error) => console.log('Login Failed:', error),
+  });
+
+  const handleAuthToggle = () => {
+    if (isLoggedIn) {
+      setIsLoggedIn(false);
+      setUserData(null);
+    } else {
+      googleLogin();
+    }
+  };
 
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
@@ -13,7 +34,7 @@ export default function App() {
         activeTab={activeTab} 
         setActiveTab={setActiveTab}
         isLoggedIn={isLoggedIn}
-        onAuthToggle={() => setIsLoggedIn(!isLoggedIn)}
+        onAuthToggle={handleAuthToggle}
       />
 
       {/* Main Container */}
@@ -60,7 +81,7 @@ export default function App() {
             </p>
 
             <button 
-              onClick={() => setIsLoggedIn(true)}
+              onClick={() => googleLogin()}
               style={{
                 background: 'linear-gradient(135deg, #7000ff 0%, #00f0ff 100%)',
                 color: '#ffffff',
