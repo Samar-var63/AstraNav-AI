@@ -2,33 +2,17 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import RoverSelection from './components/RoverSelection';
 import './index.css';
-import { useGoogleLogin } from '@react-oauth/google';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('rover');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log('Login Success:', tokenResponse);
-      setUserData(tokenResponse);
-      setIsLoggedIn(true);
-    },
-    onError: (error) => console.log('Login Failed:', error),
-  });
 
   const handleAuthToggle = () => {
-    if (isLoggedIn) {
-      setIsLoggedIn(false);
-      setUserData(null);
-    } else {
-      googleLogin();
-    }
+    setIsLoggedIn(!isLoggedIn);
   };
 
   return (
-    <div style={{ minHeight: '100vh', position: 'relative' }}>
+    <div style={{ minHeight: '100vh', position: 'relative', backgroundColor: '#020617' }}>
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab}
@@ -81,9 +65,9 @@ export default function App() {
               </p>
 
               <button 
-                onClick={() => googleLogin()}
+                onClick={handleAuthToggle}
                 style={{
-                  background: 'linear-gradient(135deg, #7000ff 0%, #00f0ff 100%)',
+                  background: 'linear-gradient(135deg, #00f0ff 0%, #7000ff 100%)',
                   color: '#ffffff',
                   border: 'none',
                   padding: '14px 32px',
@@ -95,7 +79,7 @@ export default function App() {
                   transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
               >
-                🚀 Sign In to Launch
+                🚀 Launch Dashboard
               </button>
             </div>
           </div>
@@ -109,7 +93,7 @@ export default function App() {
                   System Operational: {activeTab.toUpperCase()}
                 </h2>
                 <p style={{ color: '#cbd5e1' }}>
-                  Welcome back, Commander. You are securely connected.
+                  Welcome back, Commander. Connected to Astra-Nav telemetry.
                 </p>
               </div>
             )}
