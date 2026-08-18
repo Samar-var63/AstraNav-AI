@@ -1,27 +1,94 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import RoverViewport3D from './canvas/RoverViewport3D';
-import WelcomePage from './components/WelcomePage';
+import './index.css'; // Make sure your global styles are imported
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('rover');
-
-  const handleLoginSuccess = (userData) => {
-    console.log("Logged in user:", userData);
-    setIsAuthenticated(true);
-  };
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <>
-      {!isAuthenticated ? (
-        <WelcomePage onLoginSuccess={handleLoginSuccess} />
-      ) : (
-        <div style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden', position: 'relative' }}>
-          <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-          <RoverViewport3D activeTab={activeTab} />
-        </div>
-      )}
-    </>
+    <div style={{ minHeight: '100vh', position: 'relative' }}>
+      {/* Top Floating Navbar */}
+      <Navbar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab}
+        isLoggedIn={isLoggedIn}
+        onAuthToggle={() => setIsLoggedIn(!isLoggedIn)}
+      />
+
+      {/* Main Container */}
+      <main style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        padding: '120px 20px 40px 20px',
+        boxSizing: 'border-box'
+      }}>
+        {!isLoggedIn ? (
+          /* Centered Sign In Card */
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.75)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid rgba(0, 240, 255, 0.3)',
+            borderRadius: '24px',
+            padding: '48px 40px',
+            textAlign: 'center',
+            maxWidth: '450px',
+            width: '100%',
+            boxShadow: '0 0 40px rgba(0, 240, 255, 0.2)'
+          }}>
+            <h1 style={{
+              color: '#ffffff',
+              fontSize: '28px',
+              fontWeight: 'bold',
+              margin: '0 0 12px 0',
+              letterSpacing: '1.5px',
+              textShadow: '0 0 12px rgba(0, 240, 255, 0.6)'
+            }}>
+              AstraNav AI
+            </h1>
+            
+            <p style={{
+              color: '#94a3b8',
+              fontSize: '14px',
+              margin: '0 0 32px 0',
+              lineHeight: '1.5'
+            }}>
+              Access autonomous space navigation, telemetry, and hazard tracking.
+            </p>
+
+            <button 
+              onClick={() => setIsLoggedIn(true)}
+              style={{
+                background: 'linear-gradient(135deg, #7000ff 0%, #00f0ff 100%)',
+                color: '#ffffff',
+                border: 'none',
+                padding: '14px 32px',
+                borderRadius: '50px',
+                fontWeight: 'bold',
+                fontSize: '15px',
+                cursor: 'pointer',
+                boxShadow: '0 0 20px rgba(0, 240, 255, 0.4)',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+              }}
+            >
+              🚀 Sign In to Launch
+            </button>
+          </div>
+        ) : (
+          /* Main Dashboard Content (Shown when Logged In) */
+          <div style={{ color: '#fff', textAlign: 'center' }}>
+            <h2 style={{ fontSize: '24px', color: '#00f0ff' }}>
+              System Operational: {activeTab.toUpperCase()}
+            </h2>
+            <p style={{ color: '#cbd5e1' }}>
+              Welcome back, Commander. You are securely connected.
+            </p>
+          </div>
+        )}
+      </main>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Navbar({ activeTab, setActiveTab }) {
+export default function Navbar({ activeTab, setActiveTab, isLoggedIn, onAuthToggle }) {
   const tabs = [
     { id: 'rover', label: 'Rover Selection' },
     { id: 'frequency', label: 'Frequency & Comms' },
@@ -18,21 +18,21 @@ export default function Navbar({ activeTab, setActiveTab }) {
       width: '90%',
       maxWidth: '1200px',
       zIndex: 1000,
-      background: 'rgba(15, 23, 42, 0.45)',
+      background: 'rgba(3, 7, 18, 0.75)',
       backdropFilter: 'blur(16px)',
       WebkitBackdropFilter: 'blur(16px)',
-      border: '1px solid rgba(255, 255, 255, 0.15)',
+      border: '1px solid rgba(0, 240, 255, 0.25)',
       borderRadius: '50px',
       padding: '10px 24px',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
-      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+      justify: 'space-between',
+      boxShadow: '0 8px 32px 0 rgba(0, 240, 255, 0.15)'
     }}>
       {/* Brand Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff', fontWeight: 'bold', fontSize: '18px' }}>
         <span style={{ fontSize: '22px' }}>🚀</span>
-        <span style={{ letterSpacing: '1px' }}>AstraNav AI</span>
+        <span style={{ letterSpacing: '1px', textShadow: '0 0 10px rgba(0, 240, 255, 0.5)' }}>AstraNav AI</span>
       </div>
 
       {/* Navigation Tabs */}
@@ -42,9 +42,9 @@ export default function Navbar({ activeTab, setActiveTab }) {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             style={{
-              background: activeTab === tab.id ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-              border: activeTab === tab.id ? '1px solid rgba(255, 255, 255, 0.3)' : 'none',
-              color: activeTab === tab.id ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+              background: activeTab === tab.id ? 'rgba(0, 240, 255, 0.2)' : 'transparent',
+              border: activeTab === tab.id ? '1px solid rgba(0, 240, 255, 0.5)' : '1px solid transparent',
+              color: activeTab === tab.id ? '#00f0ff' : 'rgba(255, 255, 255, 0.7)',
               padding: '8px 18px',
               borderRadius: '30px',
               cursor: 'pointer',
@@ -58,19 +58,27 @@ export default function Navbar({ activeTab, setActiveTab }) {
         ))}
       </div>
 
-      {/* Login Action Button */}
-      <button style={{
-        background: 'linear-gradient(135deg, #00e676 0%, #00b0ff 100%)',
-        border: 'none',
-        color: '#000',
-        fontWeight: 'bold',
-        padding: '8px 22px',
-        borderRadius: '30px',
-        cursor: 'pointer',
-        fontSize: '13px',
-        boxShadow: '0 0 15px rgba(0, 230, 118, 0.4)'
-      }}>
-        Login
+      {/* Top-Right Log In / Log Out Toggle Button */}
+      <button 
+        onClick={onAuthToggle}
+        style={{
+          background: isLoggedIn 
+            ? 'rgba(255, 59, 48, 0.2)' 
+            : 'linear-gradient(135deg, #7000ff 0%, #00f0ff 100%)',
+          border: isLoggedIn ? '1px solid #ff3b30' : 'none',
+          color: '#fff',
+          fontWeight: 'bold',
+          padding: '8px 22px',
+          borderRadius: '30px',
+          cursor: 'pointer',
+          fontSize: '13px',
+          transition: 'all 0.3s ease',
+          boxShadow: isLoggedIn 
+            ? '0 0 15px rgba(255, 59, 48, 0.4)' 
+            : '0 0 15px rgba(0, 240, 255, 0.4)'
+        }}
+      >
+        {isLoggedIn ? 'Log Out' : 'Log In'}
       </button>
     </nav>
   );
