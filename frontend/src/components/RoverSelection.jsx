@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import RoverSelection from './components/RoverSelection'; // <--- Corrected import path
+import RoverSelection from './components/RoverSelection';
 import './index.css';
 import { useGoogleLogin } from '@react-oauth/google';
 
