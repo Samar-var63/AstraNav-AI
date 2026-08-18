@@ -5,8 +5,8 @@ import {
   Cpu, BatteryCharging, Zap, Shield, Radio, CheckCircle, Play, Sliders 
 } from 'lucide-react';
 
-// --- 3D Geometric Rover Model Component ---
-const 3DRoverCanvas = ({ color, shape }) => {
+// --- 3D Geometric Rover Model Component (Renamed to valid identifier) ---
+const RoverCanvas3D = ({ color, shape }) => {
   const meshRef = useRef();
 
   useFrame((state, delta) => {
@@ -40,8 +40,8 @@ const roversData = [
     name: 'Astra-1 (Lunar Explorer)',
     status: 'STANDBY',
     statusColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50',
-    3dColor: '#38bdf8',
-    3dShape: 'box',
+    color3D: '#38bdf8',
+    shape3D: 'box',
     specs: {
       drive: '6x6 Rocker-Bogie Mechanism',
       power: 'Solar Array + Lithium Backup',
@@ -56,8 +56,8 @@ const roversData = [
     name: 'Astra-2 (Martian Scout)',
     status: 'ON MISSION',
     statusColor: 'bg-amber-500/20 text-amber-400 border-amber-500/50',
-    3dColor: '#f97316',
-    3dShape: 'octa',
+    color3D: '#f97316',
+    shape3D: 'octa',
     specs: {
       drive: '8x8 Independent Suspension',
       power: 'RTG (Radioisotope Thermoelectric)',
@@ -72,8 +72,8 @@ const roversData = [
     name: 'Astra-3 (Autonomous Heavy)',
     status: 'OFFLINE',
     statusColor: 'bg-rose-500/20 text-rose-400 border-rose-500/50',
-    3dColor: '#a855f7',
-    3dShape: 'cylinder',
+    color3D: '#a855f7',
+    shape3D: 'cylinder',
     specs: {
       drive: 'Heavy-Duty Crawler Tracks',
       power: 'Dual RTG + Solar Hybrid',
@@ -130,7 +130,7 @@ export default function RoverSelection() {
 
               {/* 3D Canvas Visualizer */}
               <div className="h-44 w-full rounded-xl bg-slate-950/60 border border-slate-800/80 my-2">
-                <3DRoverCanvas color={rover.3dColor} shape={rover.3dShape} />
+                <RoverCanvas3D color={rover.color3D} shape={rover.shape3D} />
               </div>
 
               <p className="text-xs text-slate-400 text-center">Interactive 3D Preview (Drag to Rotate)</p>
