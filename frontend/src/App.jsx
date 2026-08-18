@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import RoverSelection from './RoverSelection'; // <--- 1. IMPORT ROVER SELECTION HERE
+import RoverSelection from './components/RoverSelection';
 import './index.css';
 import { useGoogleLogin } from '@react-oauth/google';
 
@@ -9,7 +9,6 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  // Hook to trigger Google Login Popup
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       console.log('Login Success:', tokenResponse);
@@ -30,7 +29,6 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
-      {/* Top Floating Navbar */}
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab}
@@ -38,14 +36,12 @@ export default function App() {
         onAuthToggle={handleAuthToggle}
       />
 
-      {/* Main Container */}
       <main style={{
         minHeight: '100vh',
         padding: '120px 20px 40px 20px',
         boxSizing: 'border-box'
       }}>
         {!isLoggedIn ? (
-          /* Centered Sign In Card */
           <div style={{
             display: 'flex',
             justifyContent: 'center',
@@ -104,9 +100,7 @@ export default function App() {
             </div>
           </div>
         ) : (
-          /* Main Dashboard Content (Shown when Logged In) */
           <div>
-            {/* 2. RENDER ROVER SELECTION WHEN 'rover' TAB IS ACTIVE */}
             {activeTab === 'rover' && <RoverSelection />}
 
             {activeTab !== 'rover' && (
